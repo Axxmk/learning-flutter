@@ -29,11 +29,9 @@ class Result extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: double.infinity,
           margin: EdgeInsets.only(bottom: 10),
           child: Text(
             "$resultScore% ",
-            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 50,
               fontWeight: FontWeight.bold,
@@ -48,7 +46,6 @@ class Result extends StatelessWidget {
               margin: EdgeInsets.only(right: 24),
               child: Text(
                 resultPhrase,
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
