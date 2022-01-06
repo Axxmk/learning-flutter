@@ -10,11 +10,11 @@ class Result extends StatelessWidget {
   String get resultPhrase {
     String resultText;
     if (resultScore <= 20) {
-      resultText = "So sad  :(";
+      resultText = "So sad :(";
     } else if (resultScore <= 40) {
       resultText = "That's okay";
     } else if (resultScore <= 60) {
-      resultText = "Wow  :)";
+      resultText = "Wow :)";
     } else if (resultScore <= 80) {
       resultText = "Amazing !!";
     } else {
@@ -28,37 +28,46 @@ class Result extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          "$resultScore % ",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
-            color: Colors.brown[400],
-          ),
-        ),
-        Text(
-          resultPhrase,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.brown[300],
+        Container(
+          width: double.infinity,
+          margin: EdgeInsets.only(bottom: 10),
+          child: Text(
+            "$resultScore% ",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+              color: Colors.brown[500],
+            ),
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: 24),
+              child: Text(
+                resultPhrase,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ),
             IconButton(
               icon: Icon(Icons.autorenew_rounded),
-              color: Colors.pink[200],
               onPressed: resetHandler,
+              splashRadius: 30,
+              color: Colors.pink[200],
               tooltip: "Do quiz again",
             ),
             IconButton(
               icon: Icon(Icons.favorite_border_outlined),
-              color: Colors.pink[200],
               onPressed: showFavHandler,
+              splashRadius: 30,
+              color: Colors.pink[200],
               tooltip: "Show my fav",
             ),
           ],

@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       ],
     },
     {
-      "question": "what's your favourite drink?",
+      "question": "What's your favourite drink?",
       "answers": [
         {'text': 'Coffee', 'score': 3},
         {'text': 'Coke', 'score': 15},
@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
       ],
     },
     {
-      "question": "what's your favourite seasons?",
+      "question": "What's your favourite seasons?",
       "answers": [
         {'text': 'Winter', 'score': 15},
         {'text': 'Summer', 'score': 10},
@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
     _totalScore += score;
 
     setState(() {
-      _questionIndex += 1;
+      _questionIndex++;
     });
 
     if (_questionIndex < _questionList.length) {
@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         appBar: AppBar(
           title: Text('My Quiz App'),
-          backgroundColor: Colors.amber,
+          backgroundColor: Colors.deepOrange[200],
         ),
         body: _questionIndex < _questionList.length
             ? Quiz(

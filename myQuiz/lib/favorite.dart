@@ -18,12 +18,11 @@ class Favorite extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          color: Colors.orange[50],
+          color: Colors.deepOrange[50],
           margin: EdgeInsets.fromLTRB(40, 0, 40, 15),
-          padding: EdgeInsets.all(25),
+          padding: EdgeInsets.fromLTRB(40, 25, 25, 25),
           child: Text(
             _favoriteList,
-            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,
               color: Colors.brown,
@@ -31,7 +30,7 @@ class Favorite extends StatelessWidget {
           ),
         ),
         IconButton(
-          iconSize: 32,
+          iconSize: 28,
           icon: Icon(Icons.autorenew_rounded),
           color: Colors.pink[200],
           onPressed: resetHandler,
