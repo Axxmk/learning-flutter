@@ -9,19 +9,16 @@ class Answer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
+      padding: EdgeInsets.all(4),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          side: BorderSide(
-            color: Colors.deepOrange[100],
-          ),
-          padding: EdgeInsets.symmetric(
-            vertical: 10,
-          ),
           primary: Colors.brown[500],
-          textStyle: TextStyle(
-            fontSize: 15,
+          minimumSize: Size(160, 40),
+          side: BorderSide(color: Colors.deepOrange[200]),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
           ),
+          textStyle: TextStyle(fontSize: 15),
         ),
         child: Text(answerText),
         onPressed: selectHandler,

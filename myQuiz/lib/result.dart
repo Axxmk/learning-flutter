@@ -43,7 +43,7 @@ class Result extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(right: 24),
+              padding: EdgeInsets.only(right: 24),
               child: Text(
                 resultPhrase,
                 style: TextStyle(

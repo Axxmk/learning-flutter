@@ -18,7 +18,10 @@ class Favorite extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          color: Colors.deepOrange[50],
+          decoration: BoxDecoration(
+            color: Colors.deepOrange[50],
+            borderRadius: BorderRadius.circular(20),
+          ),
           margin: EdgeInsets.fromLTRB(40, 0, 40, 15),
           padding: EdgeInsets.fromLTRB(40, 25, 25, 25),
           child: Text(
