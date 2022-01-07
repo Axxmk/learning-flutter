@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class Favorite extends StatelessWidget {
   final Function resetHandler;
 
-  final String _favoriteList = "Question 1: Brown \n\n" +
-      "Question 2: Dog \n\n" +
-      "Question 3: Cocoa \n\n" +
-      "Question 4: Spring \n\n" +
-      "Question 5: Sunset";
+  final _favoriteList = [
+    "Brown",
+    "Dog",
+    "Cocoa",
+    "Spring",
+    "Sunset",
+  ];
 
   Favorite(this.resetHandler);
 
@@ -24,12 +26,23 @@ class Favorite extends StatelessWidget {
           ),
           margin: EdgeInsets.fromLTRB(40, 0, 40, 15),
           padding: EdgeInsets.fromLTRB(40, 25, 25, 25),
-          child: Text(
-            _favoriteList,
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.brown,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ...(_favoriteList.map((favorite) {
+                var index = _favoriteList.indexOf(favorite) + 1;
+                return Container(
+                  padding: EdgeInsets.all(4),
+                  child: Text(
+                    "Question $index: $favorite",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.brown,
+                    ),
+                  ),
+                );
+              })).toList(),
+            ],
           ),
         ),
         IconButton(
