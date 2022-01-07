@@ -112,9 +112,9 @@ class _MyAppState extends State<MyApp> {
                 answerQuestion: _answerQuestion,
                 questionIndex: _questionIndex,
               )
-            : _favoriteShow == false
-                ? Result(_totalScore, _resetQuiz, _showFavorite)
-                : Favorite(_resetQuiz),
+            : _favoriteShow
+                ? Favorite(_resetQuiz)
+                : Result(_totalScore, _resetQuiz, _showFavorite),
       ),
     );
   }
