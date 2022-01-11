@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+// Models
+import './models/transaction.dart';
+
+// Widgets
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
-import './models/transaction.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,10 +15,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My Expenses',
+      home: MyHomePage(),
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-        accentColor: Colors.deepPurple[200],
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.deepPurple[200],
+          secondary: Colors.orange[200],
+        ),
         errorColor: Colors.red[400],
+        splashColor: Colors.orange[300],
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
@@ -28,17 +35,13 @@ class MyApp extends StatelessWidget {
               ),
             ),
         appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                // ignore: deprecated_member_use
-                title: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       ),
-      home: MyHomePage(),
     );
   }
 }
@@ -51,6 +54,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
 
+  // Transactions getter
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
@@ -62,7 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNewTransaction(
-      String txTitle, double txAmount, DateTime chosenDate) {
+    String txTitle,
+    double txAmount,
+    DateTime chosenDate,
+  ) {
     final newTrans = Transaction(
       id: DateTime.now().toString(),
       title: txTitle,
@@ -81,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  // Show the modal bottom sheet to add a new transaction
   void _startAddNewTransaction(BuildContext ctx) {
     showModalBottomSheet(
       context: ctx,
@@ -98,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text("My Expenses"),
         actions: [
           IconButton(
@@ -110,7 +118,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: SingleChildScrollView(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start, it is a default
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
@@ -118,9 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(250, 170, 160, 1.0),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         child: Icon(
           Icons.add,
           color: Colors.white,
@@ -128,6 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () => _startAddNewTransaction(context),
         tooltip: "Add expense",
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

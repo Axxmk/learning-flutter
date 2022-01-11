@@ -16,9 +16,7 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
-    if (_amountController.text.isEmpty) {
-      return;
-    }
+    if (_amountController.text.isEmpty) return;
 
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
@@ -43,9 +41,7 @@ class _NewTransactionState extends State<NewTransaction> {
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
+      if (pickedDate == null) return;
 
       setState(() {
         _selectedDate = pickedDate;
@@ -85,11 +81,11 @@ class _NewTransactionState extends State<NewTransaction> {
                           : "Picked Date : ${DateFormat.yMMMd().format(_selectedDate)}",
                     ),
                   ),
-                  FlatButton(
-                    textColor: Theme.of(context).accentColor,
+                  TextButton(
                     child: Text(
                       "Choose Date",
                       style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -98,10 +94,14 @@ class _NewTransactionState extends State<NewTransaction> {
                 ],
               ),
             ),
-            RaisedButton(
+            ElevatedButton(
               child: Text("Add Transaction"),
-              color: Theme.of(context).accentColor,
-              textColor: Theme.of(context).textTheme.button.color,
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).colorScheme.primary,
+                textStyle: TextStyle(
+                  color: Theme.of(context).textTheme.button.color,
+                ),
+              ),
               onPressed: _submitData,
             ),
           ],

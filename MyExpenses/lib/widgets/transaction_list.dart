@@ -67,6 +67,7 @@ class TransactionList extends StatelessWidget {
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       color: Theme.of(context).errorColor,
+                      splashRadius: 30,
                       onPressed: () => _deleteTrans(transactions[index].id),
                       tooltip: "delete it",
                     ),
