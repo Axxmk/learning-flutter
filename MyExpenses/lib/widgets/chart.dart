@@ -9,7 +9,7 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransactions);
 
-  List<Map<String, Object>> get groupTransactionValues {
+  List<Map<String, Object>> get _groupTransactionValues {
     return List.generate(7, (int index) {
       final weekDay = DateTime.now().subtract(
         Duration(
@@ -36,7 +36,7 @@ class Chart extends StatelessWidget {
   }
 
   double get totalSpending {
-    return groupTransactionValues.fold(0.0, (sum, item) {
+    return _groupTransactionValues.fold(0.0, (sum, item) {
       return sum + item['amount'];
     });
   }
@@ -44,16 +44,12 @@ class Chart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
-      margin: EdgeInsets.symmetric(
-        vertical: 15,
-        horizontal: 12,
-      ),
+      elevation: 2,
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: groupTransactionValues.map((data) {
+          children: _groupTransactionValues.map((data) {
             return Expanded(
               child: ChartBar(
                   data['day'],

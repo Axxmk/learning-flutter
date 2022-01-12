@@ -5,29 +5,31 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
-  final Function _deleteTrans;
+  final Function deleteTrans;
 
-  TransactionList(this.transactions, this._deleteTrans);
+  TransactionList(this.transactions, this.deleteTrans);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 610,
+      height: 500,
       child: transactions.isEmpty
           ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "No transactions added yet!",
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 20,
+                Container(
+                  margin: EdgeInsets.only(bottom: 30),
+                  child: Text(
+                    "No transactions added yet!",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
                 ),
                 Container(
-                  height: 250,
+                  height: 180,
                   child: Image.asset(
-                    'assets/images/like me.jpg',
+                    'assets/images/waiting.png',
                     fit: BoxFit.cover,
+                    color: Colors.orange[100],
                   ),
                 ),
               ],
@@ -36,39 +38,41 @@ class TransactionList extends StatelessWidget {
               itemCount: transactions.length,
               itemBuilder: (ctx, index) {
                 return Card(
-                  elevation: 2,
+                  elevation: 1,
                   margin: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 7,
+                    vertical: 4,
+                    horizontal: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: Color.fromRGBO(255, 150, 170, 0.6),
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
                       radius: 30,
                       child: Padding(
-                        padding: EdgeInsets.all(6),
+                        padding: EdgeInsets.all(8),
                         child: FittedBox(
                           child: Text(
                             "\$${transactions[index].amount}",
+                            style: Theme.of(context).textTheme.labelLarge,
                           ),
                         ),
                       ),
                     ),
                     title: Text(
                       transactions[index].title,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                     subtitle: Text(
                       DateFormat.yMMMd().format(transactions[index].date),
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
+                      onPressed: () => deleteTrans(transactions[index].id),
+                      color: Theme.of(context).colorScheme.error,
                       splashRadius: 30,
-                      onPressed: () => _deleteTrans(transactions[index].id),
                       tooltip: "delete it",
                     ),
                   ),

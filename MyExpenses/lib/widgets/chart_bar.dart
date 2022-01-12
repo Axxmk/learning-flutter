@@ -12,26 +12,27 @@ class ChartBar extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: 20,
+          padding: EdgeInsets.all(6),
           child: FittedBox(
-            child: Text("\$${spendingAmount.toStringAsFixed(0)}"),
+            child: Text(
+              "\$${spendingAmount.toStringAsFixed(0)}",
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
           ),
         ),
-        SizedBox(
-          height: 5,
-        ),
         Container(
-          height: 70,
-          width: 16,
+          height: 75,
+          width: 14,
           child: Stack(
-            children: [
+            alignment: AlignmentDirectional.bottomStart,
+            children: <Widget>[
               Container(
                 decoration: BoxDecoration(
+                  color: Colors.grey[100],
                   border: Border.all(
-                    color: Color.fromRGBO(250, 230, 240, 1.0),
-                    width: 1,
+                    color: Colors.grey[300],
+                    width: 0.5,
                   ),
-                  color: Color.fromRGBO(252, 245, 240, 1),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -47,13 +48,11 @@ class ChartBar extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 5,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey,
+        Container(
+          padding: EdgeInsets.all(6),
+          child: Text(
+            label,
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
       ],

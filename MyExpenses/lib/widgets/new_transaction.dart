@@ -16,14 +16,12 @@ class _NewTransactionState extends State<NewTransaction> {
   DateTime _selectedDate;
 
   void _submitData() {
-    if (_amountController.text.isEmpty) return;
+    if (_amountController.text.isEmpty || _titleController.text.isEmpty) return;
 
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
-      return;
-    }
+    if (enteredAmount <= 0 || _selectedDate == null) return;
 
     widget.addTrans(
       enteredTitle,
@@ -52,26 +50,24 @@ class _NewTransactionState extends State<NewTransaction> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 3,
       child: Container(
-        margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+        margin: EdgeInsets.symmetric(horizontal: 12),
         padding: EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: "Title"),
               controller: _titleController,
+              decoration: InputDecoration(labelText: "Title"),
               onSubmitted: (_) => _submitData(),
             ),
             TextField(
-              decoration: InputDecoration(labelText: "Amount"),
               controller: _amountController,
               keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: "Amount"),
               onSubmitted: (_) => _submitData(),
             ),
             Container(
-              height: 80,
+              padding: EdgeInsets.symmetric(vertical: 16),
               child: Row(
                 children: [
                   Expanded(
@@ -84,10 +80,7 @@ class _NewTransactionState extends State<NewTransaction> {
                   TextButton(
                     child: Text(
                       "Choose Date",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.secondary,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                     onPressed: _presentDatePicker,
                   ),
@@ -96,13 +89,11 @@ class _NewTransactionState extends State<NewTransaction> {
             ),
             ElevatedButton(
               child: Text("Add Transaction"),
-              style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).colorScheme.primary,
-                textStyle: TextStyle(
-                  color: Theme.of(context).textTheme.button.color,
-                ),
-              ),
               onPressed: _submitData,
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
             ),
           ],
         ),

@@ -20,18 +20,25 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Colors.deepPurple[200],
           secondary: Colors.orange[200],
+          error: Colors.red[400],
         ),
-        errorColor: Colors.red[400],
         splashColor: Colors.orange[300],
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-                color: Color.fromRGBO(255, 140, 150, 1.0),
+              titleLarge: TextStyle(
+                color: Colors.deepPurple[300],
+                fontSize: 19,
+                fontWeight: FontWeight.w600,
               ),
-              button: TextStyle(
+              titleSmall: TextStyle(
+                color: Colors.deepPurple[300],
+              ),
+              labelLarge: TextStyle(
                 color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+              labelMedium: TextStyle(
+                color: Colors.grey[700],
               ),
             ),
         appBarTheme: AppBarTheme(
@@ -58,9 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
+        DateTime.now().subtract(Duration(days: 7)),
       );
     }).toList();
   }
@@ -94,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
       context: ctx,
       builder: (_) {
         return GestureDetector(
-          onTap: () {},
           child: NewTransaction(_addNewTransaction),
+          onTap: () {},
           behavior: HitTestBehavior.opaque,
         );
       },
@@ -105,14 +110,15 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 243, 243, 243),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
         title: Text("My Expenses"),
-        actions: [
+        actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () => _startAddNewTransaction(context),
             tooltip: "Add expense",
+            splashRadius: 22,
           ),
         ],
       ),
@@ -126,11 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
+        child: Icon(Icons.add),
         onPressed: () => _startAddNewTransaction(context),
         tooltip: "Add expense",
       ),
