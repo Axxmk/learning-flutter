@@ -91,8 +91,7 @@ class _NewTransactionState extends State<NewTransaction> {
               child: Text("Add Transaction"),
               onPressed: _submitData,
               style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
           ],

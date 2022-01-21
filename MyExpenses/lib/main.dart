@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Models
 import './models/transaction.dart';
@@ -8,7 +9,14 @@ import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 import './widgets/chart.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown,
+  // ]);
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -27,15 +35,13 @@ class MyApp extends StatelessWidget {
         textTheme: ThemeData.light().textTheme.copyWith(
               titleLarge: TextStyle(
                 color: Colors.deepPurple[300],
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
               ),
               titleSmall: TextStyle(
                 color: Colors.deepPurple[300],
               ),
               labelLarge: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w700,
               ),
               labelMedium: TextStyle(
                 color: Colors.grey[700],
@@ -60,6 +66,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
+  bool _showChart = false;
 
   // Transactions getter
   List<Transaction> get _recentTransactions {
@@ -109,25 +116,70 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape = MediaQuery.of(context).orientation == Orientation.landscape;
+
+    final appBar = AppBar(
+      title: Text("My Expenses"),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () => _startAddNewTransaction(context),
+          tooltip: "Add expense",
+          splashRadius: 22,
+        ),
+      ],
+    );
+
+    final transactionListWidget = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.75,
+      child: TransactionList(_userTransactions, _deleteTransaction),
+    );
+
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 243, 243, 243),
-      appBar: AppBar(
-        title: Text("My Expenses"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _startAddNewTransaction(context),
-            tooltip: "Add expense",
-            splashRadius: 22,
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            TransactionList(_userTransactions, _deleteTransaction),
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('Show Chart'),
+                  Switch(
+                    value: _showChart,
+                    onChanged: (bool newValue) {
+                      setState(() {
+                        _showChart = newValue;
+                      });
+                    },
+                    activeColor: Theme.of(context).colorScheme.primary,
+                  )
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.25,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) transactionListWidget,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (MediaQuery.of(context).size.height -
+                              appBar.preferredSize.height -
+                              MediaQuery.of(context).padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions),
+                    )
+                  : transactionListWidget,
           ],
         ),
       ),
