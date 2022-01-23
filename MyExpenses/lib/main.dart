@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
 
 // Models
 import './models/transaction.dart';
@@ -145,6 +145,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            if (!isLandscape)
+              Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.25,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) transactionListWidget,
             if (isLandscape)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -161,15 +170,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ],
               ),
-            if (!isLandscape)
-              Container(
-                height: (MediaQuery.of(context).size.height -
-                        appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.25,
-                child: Chart(_recentTransactions),
-              ),
-            if (!isLandscape) transactionListWidget,
             if (isLandscape)
               _showChart
                   ? Container(
