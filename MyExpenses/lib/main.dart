@@ -1,16 +1,15 @@
+// internals
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 
-// Models
+// models
 import './models/transaction.dart';
 
-// Widgets
+// widgets
+import './widgets/responsive_body.dart';
 import './widgets/new_transaction.dart';
-import './widgets/transaction_list.dart';
-import './widgets/chart.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -69,16 +68,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [];
-  bool _showChart = false;
-
-  // Transactions getter
-  List<Transaction> get _recentTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(Duration(days: 7)),
-      );
-    }).toList();
-  }
 
   void _addNewTransaction(
     String txTitle,
@@ -119,9 +108,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final isLandscape = mediaQuery.orientation == Orientation.landscape;
-
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text("My Expenses"),
@@ -129,7 +115,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 GestureDetector(
-                  child: Icon(CupertinoIcons.add),
+                  child: Icon(
+                    CupertinoIcons.add,
+                    size: 24,
+                    color: Colors.black54,
+                  ),
                   onTap: () => _startAddNewTransaction(context),
                 )
               ],
@@ -147,63 +137,23 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           );
 
-    final transactionListWidget = Container(
-      height:
-          (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top) * 0.75,
-      child: TransactionList(_userTransactions, _deleteTransaction),
-    );
-
-    final pageBody = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (!isLandscape)
-            Container(
-              height:
-                  (mediaQuery.size.height - appBar.preferredSize.height - mediaQuery.padding.top) *
-                      0.25,
-              child: Chart(_recentTransactions),
-            ),
-          if (!isLandscape) transactionListWidget,
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Show Chart'),
-                Switch.adaptive(
-                  value: _showChart,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      _showChart = newValue;
-                    });
-                  },
-                  activeColor: Theme.of(context).colorScheme.primary,
-                )
-              ],
-            ),
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(_recentTransactions),
-                  )
-                : transactionListWidget,
-        ],
-      ),
-    );
-
     return Platform.isIOS
         ? CupertinoPageScaffold(
             navigationBar: appBar,
-            child: pageBody,
+            child: ResponsiveBody(
+              appbarSize: appBar.preferredSize,
+              userTransactions: _userTransactions,
+              deleteTransaction: _deleteTransaction,
+            ),
           )
         : Scaffold(
             backgroundColor: Color.fromARGB(255, 243, 243, 243),
             appBar: appBar,
-            body: pageBody,
+            body: ResponsiveBody(
+              appbarSize: appBar.preferredSize,
+              userTransactions: _userTransactions,
+              deleteTransaction: _deleteTransaction,
+            ),
             floatingActionButton: Platform.isIOS
                 ? Container()
                 : FloatingActionButton(
