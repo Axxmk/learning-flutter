@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_expenses/widgets/adaptive_elevated_button.dart';
 import 'dart:io';
 
 // widgets
@@ -95,19 +96,10 @@ class _NewTransactionState extends State<NewTransaction> {
                   ],
                 ),
               ),
-              Platform.isIOS
-                  ? CupertinoButton(
-                      color: Theme.of(context).colorScheme.primary,
-                      child: Text("Add Transaction"),
-                      onPressed: _submitData,
-                    )
-                  : ElevatedButton(
-                      child: Text("Add Transaction"),
-                      onPressed: _submitData,
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                    ),
+              AdaptiveElevatedButton(
+                text: "Add Transaction",
+                handler: _submitData,
+              )
             ],
           ),
         ),
